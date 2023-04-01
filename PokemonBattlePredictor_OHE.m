@@ -141,10 +141,16 @@ net = train(net, X', Y');
 
 % estimate the target y using input data x
 y = net(X');
-
 y = round(y);
 
-accuracy_ANN = sum(y' == Y)/size(Y,1);
+% Prediction
+Ypred = net(Xtest');
+Ypred = round(Ypred);
+
+accuracy_ANN = sum(Ypred' == Ytest)/size(Ytest,1);
+
+% Four cell matrix: True positive, False Positive, False negative, true negative
+confusion_matrix = confusionmat(Ytest,Ypred);
 
 
 %% Function call for live demo to test between two pokemon and say whether it was correct or not
