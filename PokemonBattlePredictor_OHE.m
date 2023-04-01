@@ -131,11 +131,24 @@ accuracy = sum(Ypred == Ytest)/size(Ytest,1);
 % Four cell matrix: True positive, False Positive, False negative, true negative
 confusion_matrix = confusionmat(Ytest,Ypred);
 
+%% ANN Test
+
+% define your net to be a feedforwardnet with 10 neurons in  % the hidden layer and trainlm as training algorithm
+net = feedforwardnet(10, 'trainlm');
+
+% train your model using input data x and target data t
+net = train(net, X', Y');
+
+% estimate the target y using input data x
+y = net(X');
+
+y = round(y);
+
+accuracy_ANN = sum(y' == Y)/size(Y,1);
+
+
 %% Function call for live demo to test between two pokemon and say whether it was correct or not
 [winner] = battleSim(battles,stats,229,22,mdl)
-
-
-
 
 function [prediction_rescale] = battleSim(battles,stats,ID1,ID2,model)
 %BATTLESIM Live demo of a battle, pass in two pokemon ID's and the model then return the output
@@ -188,4 +201,5 @@ function [prediction_rescale] = battleSim(battles,stats,ID1,ID2,model)
 %     end
 %     
 end
+
 
